@@ -1,5 +1,6 @@
 #Hackathon File
-def analyze_file(file_path):
+# updating function name
+def analyse_file(file_path):
   '''Non optimized file'''
     file = open(file_path, "r")
     text = file.read()
