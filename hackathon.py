@@ -1,45 +1,39 @@
 ```python
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
-# Import required libraries
-import os
-from typing import List, Dict
+"""
+This module contains functions for solving problems related to data structures.
+"""
 
-def load_products() -> List[Dict]:
-    """Load products from file"""
+import typing as t
+
+def calculate_sum(numbers: t.List[int]) -> int:
+    """
+    Calculate the sum of a list of numbers.
+
+    Args:
+        numbers (list): A list of integers.
+
+    Returns:
+        int: The sum of the numbers in the list.
+
+    Raises:
+        ValueError: If the input is not a list or if the list contains non-integer values.
+    """
+    if not isinstance(numbers, list):
+        raise ValueError("Input must be a list")
     try:
-        with open('products.txt', 'r') as file:
-            lines = [line.strip().split(',') for line in file.readlines()]
-            return [{key: value for key, value in zip(line[:2], line[2:])} for line in lines]
-    except FileNotFoundError:
-        print("Error: File not found.")
-        return []
+        return sum(numbers)
+    except TypeError:
+        raise ValueError("List must contain only integers")
 
-def add_to_cart(products: List[Dict]) -> None:
-    """Add item to cart"""
-    cart = []
-    for i, product in enumerate(products):
-        # Check if price is valid
-        try:
-            price = float(product['price'].replace('$', ''))
-        except ValueError:
-            print(f"Error: Invalid price for product {product['name']}. Skipping...")
-            continue
 
-        cart.append({
-            "index": i,
-            "name": product["name"],
-            "price": price
-        })
-    return cart
+def main():
+    # Example usage
+    numbers = [1, 2, 3, 4, 5]
+    result = calculate_sum(numbers)
+    print(result)  # Output: 15
 
-def main() -> None:
-    products = load_products()
-    cart = add_to_cart(products)
-
-    # Print cart
-    for item in cart:
-        print(f"Item {item['index']}: Name = {item['name']}, Price = ${item['price']}")
 
 if __name__ == "__main__":
     main()
