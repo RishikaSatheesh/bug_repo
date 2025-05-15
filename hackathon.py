@@ -1,34 +1,43 @@
 ```python
-import pandas as pd
+import logging
 
-class DataProcessor:
-    def __init__(self, data):
-        self.data = data
+# Set up logging configuration
+logging.basicConfig(filename='log.txt', level=logging.INFO)
 
-    def load_data(self):
-        try:
-            self.data = pd.read_csv('data.csv')
-        except FileNotFoundError:
-            print("File not found. Please check the file path.")
-            return False
-        except pd.errors.EmptyDataError:
-            print("No data in file. Please check the file content.")
-            return False
-        return True
+def print_greeting(num_spaces):
+    """Prints a decorated greeting message."""
+    greeting = 'Hello World!' + ' ' * num_spaces
+    print(greeting)
 
-    def process_data(self):
-        # Remove duplicates using set()
-        self.data = list(set(self.data))
+def read_and_process_file(file_path, chunk_size=1024):
+    """
+    Reads the file in chunks and processes it.
 
-        # Sort data in ascending order
-        self.data.sort()
+    Args:
+        file_path (str): Path to the file.
+        chunk_size (int, optional): Size of each chunk. Defaults to 1024.
 
-        return self.data
+    Returns:
+        None
+    """
+    try:
+        with open(file_path, 'r') as file:
+            while True:
+                chunk = file.read(chunk_size)
+                if not chunk:
+                    break
+                # Process the chunk here...
+                logging.info(f"Processed {len(chunk)} bytes")
+    except FileNotFoundError:
+        logging.error("File not found")
 
+def main():
+    event_name = "hackathon"
+    print_greeting(4)  # Number of spaces for decoration
+    
+    file_path = "example.txt"  # Replace with your actual file path
+    read_and_process_file(file_path)
 
 if __name__ == "__main__":
-    data = []
-    if DataProcessor(data).load_data():
-        result = DataProcessor(data).process_data()
-        print(result)
+    main()
 ```
