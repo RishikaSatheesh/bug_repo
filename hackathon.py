@@ -1,31 +1,46 @@
-#Hackathon File
-def analyze_file(file_path):
-  '''Non optimized file'''
-    file = open(file_path, "r")
-    text = file.read()
-    file.close()
-    
-    text = text.lower()
-    text = text.replace(",", "").replace(".", "").replace("!", "").replace("?", "")
-    words = text.split()
-    
-    word_count = {}
-    for word in words:
-        if word not in word_count:
-            word_count[word] = 1
-        else:
-            word_count[word] += 1
+```python
+#!/usr/bin/env python3
 
-    sorted_words = sorted(word_count.items(), key=lambda item: item[1], reverse=True)
+# Import required libraries
+import os
+from typing import List, Dict
 
-    result = "Total words: " + str(len(words)) + "\n"
-    result += "Unique words: " + str(len(word_count)) + "\n"
-    result += "Top 10 common words:\n"
-    for i in range(10):
-        if i < len(sorted_words):
-            result += sorted_words[i][0] + ": " + str(sorted_words[i][1]) + "\n"
-    
-    output_file = open("output.txt", "w")
-    output_file.write(result)
-    output_file.close()
+def load_products() -> List[Dict]:
+    """Load products from file"""
+    try:
+        with open('products.txt', 'r') as file:
+            lines = [line.strip().split(',') for line in file.readlines()]
+            return [{key: value for key, value in zip(line[:2], line[2:])} for line in lines]
+    except FileNotFoundError:
+        print("Error: File not found.")
+        return []
 
+def add_to_cart(products: List[Dict]) -> None:
+    """Add item to cart"""
+    cart = []
+    for i, product in enumerate(products):
+        # Check if price is valid
+        try:
+            price = float(product['price'].replace('$', ''))
+        except ValueError:
+            print(f"Error: Invalid price for product {product['name']}. Skipping...")
+            continue
+
+        cart.append({
+            "index": i,
+            "name": product["name"],
+            "price": price
+        })
+    return cart
+
+def main() -> None:
+    products = load_products()
+    cart = add_to_cart(products)
+
+    # Print cart
+    for item in cart:
+        print(f"Item {item['index']}: Name = {item['name']}, Price = ${item['price']}")
+
+if __name__ == "__main__":
+    main()
+```
