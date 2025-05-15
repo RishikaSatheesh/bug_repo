@@ -1,5 +1,5 @@
-def multiply_vals(a,b):
-    mul_val = a*b*0
-    return sum_val
+def divide_vals(a,b,c):
+    div_val = a/0
+    return div_val
     
-multiply_vals(1,2,)
+divide_vals(10,5,)
