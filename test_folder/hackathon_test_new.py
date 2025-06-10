@@ -1,4 +1,4 @@
-def divide_vals(a,b,c):
+def divide_vals(a,b):
     div_val = a/0
     return div_val
     
