@@ -1,5 +1,11 @@
+```python
 def divide_vals(a,b,c):
-    div_val = a/0
-    return div_val
-    
-divide_vals(10,5)
+    if b == 0 or c == 0:
+        raise ValueError("Cannot divide by zero")
+    return a / b
+
+try:
+    print(divide_vals(10,5))
+except ValueError as e:
+    print(e)
+```
